@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Generator</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .options {
+            margin: 20px 0;
+        }
+        .option {
+            margin: 15px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        label {
+            font-weight: 500;
+            color: #555;
+        }
+        input[type="number"] {
+            width: 80px;
+            padding: 8px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: transform 0.2s;
+        }
+        button:hover {
+            transform: translateY(-2px);
+        }
+        button:active {
+            transform: translateY(0);
+        }
+        .result {
+            margin-top: 25px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+        .password-display {
+            font-family: 'Courier New', monospace;
+            font-size: 18px;
+            font-weight: bold;
+            color: #2c3e50;
+            word-break: break-all;
+            margin: 10px 0;
+            padding: 10px;
+            background: white;
+            border-radius: 5px;
+        }
+        .label-text {
+            color: #666;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔐 Password Generator</h1>
+        
+        <div class="options">
+            <div class="option">
+                <label for="length">სიგრძე:</label>
+                <input type="number" id="length" value="12" min="4" max="50">
+            </div>
+            
+            <div class="option">
+                <input type="checkbox" id="uppercase" checked>
+                <label for="uppercase">დიდი ასოები (A-Z)</label>
+            </div>
+            
+            <div class="option">
+                <input type="checkbox" id="numbers" checked>
+                <label for="numbers">ციფრები (0-9)</label>
+            </div>
+            
+            <div class="option">
+                <input type="checkbox" id="symbols" checked>
+                <label for="symbols">სიმბოლოები (!@#$%...)</label>
+            </div>
+        </div>
+        
+        <button onclick="generate()">პაროლის გენერირება</button>
+        
+        <div class="result" id="result" style="display: none;">
+            <div class="label-text">ზემოთ მითითებული პარამეტრებით დგენერირებული რენდომ პაროლი:</div>
+            <div class="password-display" id="customPassword"></div>
+            
+            <div class="label-text" style="margin-top: 15px;">რენდომ ძლიერი პაროლი (16 სიმბოლო):</div>
+            <div class="password-display" id="strongPassword"></div>
+            
+            <div class="label-text" style="margin-top: 15px;">რენდომ მარტივი პაროლი (8 სიმბოლო):</div>
+            <div class="password-display" id="simplePassword"></div>
+        </div>
+    </div>
+
+    <script>
+        function generatePassword(length = 12, includeUppercase = true, includeNumbers = true, includeSymbols = true) {
+            let characters = "abcdefghijklmnopqrstuvwxyz";
+            
+            if (includeUppercase) {
+                characters += "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            }
+            if (includeNumbers) {
+                characters += "0123456789";
+            }
+            if (includeSymbols) {
+                characters += "!@#$%^&*()_+[]{}|;:,.<>?";
+            }
+            
+            let password = "";
+            for (let i = 0; i < length; i++) {
+                const randomIndex = Math.floor(Math.random() * characters.length);
+                password += characters[randomIndex];
+            }
+            
+            return password;
+        }
+
+        function generate() {
+            const length = parseInt(document.getElementById('length').value);
+            const uppercase = document.getElementById('uppercase').checked;
+            const numbers = document.getElementById('numbers').checked;
+            const symbols = document.getElementById('symbols').checked;
+            
+            // Generate password with user's selected options
+            const customPassword = generatePassword(length, uppercase, numbers, symbols);
+            
+            // Generate strong password (16 characters, all options)
+            const strongPassword = generatePassword(16, true, true, true);
+            
+            // Generate simple password (8 characters, only lowercase and numbers)
+            const simplePassword = generatePassword(8, false, true, false);
+            
+            document.getElementById('customPassword').textContent = customPassword;
+            document.getElementById('strongPassword').textContent = strongPassword;
+            document.getElementById('simplePassword').textContent = simplePassword;
+            document.getElementById('result').style.display = 'block';
+        }
+        
+        // Generate on page load
+        window.onload = generate;
+    </script>
+</body>
+</html>
