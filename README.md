@@ -34,7 +34,7 @@
 
 ```bash
 # კლონირება
-git clone https://github.com/yourusername/password-generator.git
+git clone https://github.com/DarkPapski/password-generator.git
 
 # გახსენით პროექტის ფოლდერი
 cd password-generator
@@ -59,6 +59,8 @@ a3x9m2p7
 MIT License - თავისუფლად გამოიყენეთ პირადი და კომერციული პროექტებისთვის.
 
 ## 👨‍💻 ავტორი
+
+**DarkPapski** - [GitHub](https://github.com/DarkPapski)
 
 შექმნილია ❤️-ით
 
